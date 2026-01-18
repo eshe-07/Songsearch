@@ -1,32 +1,32 @@
+const API_URL = "https://eshe.app.n8n.cloud/webhook/search-lyrics";
+
 async function searchLyrics() {
-  const query = document.getElementById("searchInput").value.trim();
+  const input = document.getElementById("query");
   const resultsDiv = document.getElementById("results");
 
-  resultsDiv.innerHTML = "Searching...";
+  const keyword = input.value.trim();
+  resultsDiv.innerHTML = "";
 
-  if (!query) {
+  if (!keyword) {
     resultsDiv.innerHTML = "<p>Please enter a word.</p>";
     return;
   }
 
+  resultsDiv.innerHTML = "<p>🌌 Searching the music universe...</p>";
+
   try {
-    const response = await fetch("https://eshe.app.n8n.cloud/webhook/search-lyrics", {
+    const response = await fetch(API_URL, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ query })
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query: keyword })
     });
 
     if (!response.ok) {
-      throw new Error("Server error");
+      throw new Error("Server error: " + response.status);
     }
 
     const data = await response.json();
 
-    console.log("API response:", data); // debug
-
-    // ✅ IMPORTANT FIX: data IS the array
     if (!Array.isArray(data) || data.length === 0) {
       resultsDiv.innerHTML = "<p>No songs found.</p>";
       return;
@@ -39,19 +39,26 @@ async function searchLyrics() {
       card.className = "song-card";
 
       card.innerHTML = `
-        <img src="${song.image || 'https://via.placeholder.com/60'}" />
-        <div class="song-info">
-          <h3>${song.title}</h3>
-          <p>${song.artist}</p>
-          <a href="${song.url}" target="_blank">View lyrics</a>
-        </div>
+        <img src="${song.image || 'https://via.placeholder.com/300'}" />
+        <h4>${song.title}</h4>
+        <p>${song.artist}</p>
+        <a href="${song.url}" target="_blank" style="color:#caa7ff">View lyrics</a>
       `;
 
       resultsDiv.appendChild(card);
     });
 
-  } catch (err) {
-    console.error(err);
-    resultsDiv.innerHTML = "<p>Server error. Please try later.</p>";
+  } catch (error) {
+    console.error(error);
+    resultsDiv.innerHTML = "<p>🚨 Something went wrong. Please try again.</p>";
   }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const input = document.getElementById("query");
+  if (input) {
+    input.addEventListener("keypress", e => {
+      if (e.key === "Enter") searchLyrics();
+    });
+  }
+});

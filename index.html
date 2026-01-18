@@ -3,25 +3,56 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lyrics Finder App</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Lyrics Finder – Music Galaxy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="app-container">
-    <h1>🎵 Lyrics Finder</h1>
-    <p>Search songs by any word in their lyrics</p>
+<header>
+  <h1>🎵 Lyrics Finder Universe</h1>
+  <p>Explore songs across the galaxy by any word in their lyrics</p>
+</header>
 
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="Enter a word (e.g. love, pain, dream)" />
-      <button onclick="searchLyrics()">Search</button>
-    </div>
-
-    <div id="loader" class="loader hidden"></div>
-
-    <div id="results" class="results-container"></div>
+<div class="search-box">
+  <div class="search-row">
+    <input id="query" placeholder="Search any lyric word..." />
+    <button onclick="searchLyrics()">Search</button>
   </div>
+  <div id="results"></div>
+</div>
 
-  <script src="app.js"></script>
+<section>
+  <div class="info-box">
+    <h2>🌌 Importance of Music Patterns</h2>
+    <p>
+      Music patterns are the hidden language of emotions. Repeated rhythms, lyrical motifs, and melodic structures shape how our brains recognize, remember, and emotionally connect with songs.
+      
+      From calming loops to energetic choruses, patterns create predictability that the human mind craves — helping music heal, motivate, and unify cultures across the world.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="info-box about">
+    <div class="avatar">ED</div>
+    <div>
+      <h2>👩‍🚀 About Eshe Dogra</h2>
+      <p>
+        Eshe Dogra is a passionate technologist and digital creator who blends creativity with engineering.
+        
+        This project represents her curiosity for how technology can explore human expression through music, data, and design — turning simple searches into meaningful discovery experiences.
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Made with 💜 in the Music Universe
+</footer>
+
+<script src="app.js"></script>
+
 </body>
 </html>
