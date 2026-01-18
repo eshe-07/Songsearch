@@ -62,3 +62,69 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+/* ================================
+   PARALLAX SCROLL EFFECT
+================================ */
+
+window.addEventListener("scroll", () => {
+  const scrollY = window.scrollY;
+
+  document.querySelector(".layer-back").style.transform =
+    `translateY(${scrollY * 0.1}px)`;
+
+  document.querySelector(".layer-mid").style.transform =
+    `translateY(${scrollY * 0.2}px)`;
+
+  document.querySelector(".layer-front").style.transform =
+    `translateY(${scrollY * 0.3}px)`;
+});
+
+function createShootingStar() {
+  const container = document.querySelector(".shooting-stars");
+  const star = document.createElement("div");
+  star.className = "star";
+
+  star.style.top = Math.random() * window.innerHeight + "px";
+  star.style.left = window.innerWidth + "px";
+
+  container.appendChild(star);
+
+  setTimeout(() => star.remove(), 1500);
+}
+
+// spawn every 3–6 seconds
+setInterval(createShootingStar, 3000 + Math.random() * 3000);
+async function initAudioReactiveWaves() {
+  const spans = document.querySelectorAll(".audio-waves span");
+
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const audioCtx = new AudioContext();
+    const analyser = audioCtx.createAnalyser();
+    const source = audioCtx.createMediaStreamSource(stream);
+
+    source.connect(analyser);
+    analyser.fftSize = 64;
+
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+
+    function animate() {
+      analyser.getByteFrequencyData(dataArray);
+
+      spans.forEach((span, i) => {
+        const value = dataArray[i * 2] || 0;
+        span.style.height = `${20 + value}px`;
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  } catch (err) {
+    console.warn("Microphone access denied – using default animation.");
+  }
+}
+
+initAudioReactiveWaves();

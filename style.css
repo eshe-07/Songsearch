@@ -165,3 +165,205 @@ footer {
   header h1 { font-size: 2.2rem; }
   .about { grid-template-columns: 1fr; text-align: center; }
 }
+
+/* ================================
+   PARALLAX GALAXY LAYERS
+================================ */
+
+.parallax {
+  position: fixed;
+  inset: 0;
+  background-repeat: repeat;
+  pointer-events: none;
+  z-index: -3;
+}
+
+.layer-back {
+  background-image: radial-gradient(#ffffff22 1px, transparent 1px);
+  background-size: 4px 4px;
+}
+
+.layer-mid {
+  background-image: radial-gradient(#b388ff33 1px, transparent 1px);
+  background-size: 6px 6px;
+}
+
+.layer-front {
+  background-image: radial-gradient(#ffffff44 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+
+/* ================================
+   FLOATING PLANETS
+================================ */
+
+.planet {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(0.2px);
+  opacity: 0.9;
+  animation: float 12s ease-in-out infinite;
+  z-index: -2;
+}
+
+.planet-1 {
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, #caa7ff, #6b2fd6);
+  top: 20%;
+  left: 8%;
+}
+
+.planet-2 {
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, #ffd6ff, #8a3ffc);
+  top: 60%;
+  right: 10%;
+  animation-duration: 18s;
+}
+
+.planet-3 {
+  width: 90px;
+  height: 90px;
+  background: radial-gradient(circle, #a0c4ff, #4d3cff);
+  bottom: 15%;
+  left: 55%;
+  animation-duration: 14s;
+}
+
+@keyframes float {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-30px); }
+  100% { transform: translateY(0px); }
+}
+
+/* ================================
+   AUDIO WAVES
+================================ */
+
+.audio-waves {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 6px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.audio-waves span {
+  width: 6px;
+  height: 20px;
+  background: linear-gradient(#caa7ff, #6b2fd6);
+  border-radius: 4px;
+  animation: wave 1.2s infinite ease-in-out;
+}
+
+.audio-waves span:nth-child(2) { animation-delay: 0.1s; }
+.audio-waves span:nth-child(3) { animation-delay: 0.2s; }
+.audio-waves span:nth-child(4) { animation-delay: 0.3s; }
+.audio-waves span:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes wave {
+  0%, 100% { height: 20px; }
+  50% { height: 60px; }
+}
+/* ================================
+   NEBULA CLOUDS
+================================ */
+
+.nebula {
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(155,92,255,0.25), transparent 70%);
+  filter: blur(80px);
+  z-index: -4;
+  animation: nebulaMove 60s linear infinite;
+}
+
+.nebula-1 { top: -150px; left: -200px; }
+.nebula-2 { bottom: -200px; right: -150px; animation-duration: 90s; }
+
+@keyframes nebulaMove {
+  0% { transform: translate(0,0); }
+  50% { transform: translate(120px, 60px); }
+  100% { transform: translate(0,0); }
+}
+
+/* ================================
+   SHOOTING STARS
+================================ */
+
+.shooting-stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.star {
+  position: absolute;
+  width: 120px;
+  height: 2px;
+  background: linear-gradient(90deg, #fff, transparent);
+  opacity: 0.8;
+  animation: shoot 1.2s linear forwards;
+}
+
+@keyframes shoot {
+  from { transform: translate(0,0); }
+  to { transform: translate(-600px, 400px); opacity: 0; }
+}
+
+/* ================================
+   ORBITING PLANET SYSTEM
+================================ */
+
+.orbit-system {
+  position: fixed;
+  top: 30%;
+  right: 10%;
+  width: 200px;
+  height: 200px;
+  pointer-events: none;
+  z-index: -2;
+}
+
+.orbit {
+  width: 100%;
+  height: 100%;
+  border: 1px dashed rgba(255,255,255,0.1);
+  border-radius: 50%;
+  position: relative;
+  animation: rotateOrbit 20s linear infinite;
+}
+
+.orbit-planet {
+  width: 24px;
+  height: 24px;
+  background: radial-gradient(circle, #fff, #7b3fe4);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  right: -12px;
+  transform: translateY(-50%);
+}
+
+@keyframes rotateOrbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ================================
+   AUDIO WAVE – reactive upgrade
+================================ */
+
+.audio-waves span {
+  transition: height 0.1s linear;
+}
