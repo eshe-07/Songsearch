@@ -1,96 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lyrics Finder – Music Galaxy</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-<!-- Nebula clouds -->
-<div class="nebula nebula-1"></div>
-<div class="nebula nebula-2"></div>
+  <!-- Nebula clouds -->
+  <div class="nebula nebula-1"></div>
+  <div class="nebula nebula-2"></div>
 
-<!-- Shooting stars container -->
-<div class="shooting-stars"></div>
+  <!-- Shooting stars container -->
+  <div class="shooting-stars"></div>
 
-<!-- Orbit system -->
-<div class="orbit-system">
-  <div class="orbit">
-    <div class="orbit-planet"></div>
-  </div>
-</div>
-
-<!-- Parallax Galaxy Layers -->
-<div class="parallax layer-back"></div>
-<div class="parallax layer-mid"></div>
-<div class="parallax layer-front"></div>
-
-<!-- Floating Planets -->
-<div class="planet planet-1"></div>
-<div class="planet planet-2"></div>
-<div class="planet planet-3"></div>
-
-<!-- Audio Wave Background -->
-<div class="audio-waves">
-  <span></span><span></span><span></span><span></span><span></span>
-</div>
-
-
-<header>
-  <h1>🎵 Lyrics Finder Universe</h1>
-  <p>Explore songs across the galaxy by any word in their lyrics</p>
-</header>
-
-<div class="search-box">
-  <div class="search-row">
-    <input id="query" placeholder="Search any lyric word..." />
-    <button onclick="searchLyrics()">Search</button>
-  </div>
-  <div id="results"></div>
-</div>
-<select id="yearFilter">
-  <option value="">Any year</option>
-  <option value="1980s">1980s</option>
-  <option value="1990s">1990s</option>
-  <option value="2000s">2000s</option>
-  <option value="2010s">2010s</option>
-  <option value="2020s">2020s</option>
-</select>
-
-
-<section>
-  <div class="info-box">
-    <h2>🌌 Importance of Music Patterns</h2>
-    <p>
-      Music patterns are the hidden language of emotions. Repeated rhythms, lyrical motifs, and melodic structures shape how our brains recognize, remember, and emotionally connect with songs.
-      
-      From calming loops to energetic choruses, patterns create predictability that the human mind craves — helping music heal, motivate, and unify cultures across the world.
-    </p>
-  </div>
-</section>
-
-<section>
-  <div class="info-box about">
-    <div class="avatar">ED</div>
-    <div>
-      <h2>👩‍🚀 About Eshe Dogra</h2>
-      <p>
-        Eshe Dogra is a passionate technologist and digital creator who blends creativity with engineering.
-        
-        This project represents her curiosity for how technology can explore human expression through music, data, and design — turning simple searches into meaningful discovery experiences.
-      </p>
+  <!-- Orbit system -->
+  <div class="orbit-system">
+    <div class="orbit">
+      <div class="orbit-planet"></div>
     </div>
   </div>
-</section>
 
-<footer>
-  Made with 💜 in the Music Universe
-</footer>
+  <!-- Parallax Galaxy Layers -->
+  <div class="parallax layer-back"></div>
+  <div class="parallax layer-mid"></div>
+  <div class="parallax layer-front"></div>
 
-<script src="app.js"></script>
+  <!-- Floating Planets -->
+  <div class="planet planet-1"></div>
+  <div class="planet planet-2"></div>
+  <div class="planet planet-3"></div>
+
+  <!-- Audio Wave Background -->
+  <div class="audio-waves">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+
+  <header>
+    <h1>🎵 Lyrics Finder Universe</h1>
+    <p>Explore songs across the galaxy by any word in their lyrics</p>
+  </header>
+
+  <div class="search-box">
+    <div class="search-row">
+      <select id="yearFilter">
+        <option value="">Any year</option>
+        <option value="1980s">1980s</option>
+        <option value="1990s">1990s</option>
+        <option value="2000s">2000s</option>
+        <option value="2010s">2010s</option>
+        <option value="2020s">2020s</option>
+      </select>
+      <input id="query" placeholder="Search any lyric word..." />
+      <button onclick="searchLyrics()">Search</button>
+    </div>
+    <div id="results"></div>
+  </div>
+
+
+
+  <section>
+    <div class="info-box">
+      <h2>🌌 Importance of Music Patterns</h2>
+      <p>
+        Music patterns are the hidden language of emotions. Repeated rhythms, lyrical motifs, and melodic structures
+        shape how our brains recognize, remember, and emotionally connect with songs.
+
+        From calming loops to energetic choruses, patterns create predictability that the human mind craves — helping
+        music heal, motivate, and unify cultures across the world.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="info-box about">
+      <div class="avatar">ED</div>
+      <div>
+        <h2>👩‍🚀 About Eshe Dogra</h2>
+        <p>
+          Eshe Dogra is a passionate technologist and digital creator who blends creativity with engineering.
+
+          This project represents her curiosity for how technology can explore human expression through music, data, and
+          design — turning simple searches into meaningful discovery experiences.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Made with 💜 in the Music Universe
+  </footer>
+
+  <script src="app.js"></script>
 
 </body>
+
 </html>
