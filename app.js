@@ -128,3 +128,16 @@ async function initAudioReactiveWaves() {
 }
 
 initAudioReactiveWaves();
+
+const year = document.getElementById("yearFilter").value;
+
+const response = await fetch("https://eshe.app.n8n.cloud/webhook/search-lyrics", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    query: searchTerm,      // or `keyword` if that's your variable
+    year: year || null      // optional filter
+  })
+});
+
+
