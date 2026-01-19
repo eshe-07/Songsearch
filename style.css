@@ -367,12 +367,3 @@ footer {
 .audio-waves span {
   transition: height 0.1s linear;
 }
-
-.year-filter {
-  padding: 10px 12px;
-  border-radius: 8px;
-  border: none;
-  margin-left: 10px;
-  background: #2b1640;
-  color: #fff;
-}
