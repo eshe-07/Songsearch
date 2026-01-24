@@ -42,6 +42,14 @@ async function searchLyrics() {
     const payload = Array.isArray(data) ? data[0] : data;
     const songs = Array.isArray(payload?.results) ? payload.results : [];
 
+    // 📊 TRACK SEARCH EVENT
+    trackEvent("search", {
+      keyword,
+      era: selectedEra,
+      resultsCount: songs.length
+    });
+
+
     if (songs.length === 0) {
       resultsDiv.innerHTML = "<p>No songs found for this era.</p>";
       return;
@@ -58,9 +66,17 @@ async function searchLyrics() {
         <h4>${song.title || "Unknown Title"}</h4>
         <p>${song.artist || "Unknown Artist"}</p>
         ${song.year ? `<p><small>Year: ${song.year}</small></p>` : ""}
-        <a href="${song.url || "#"}" target="_blank" style="color:#caa7ff">
-          View lyrics
-        </a>
+        <a href="${song.url || "#"}"
+   target="_blank"
+   style="color:#caa7ff"
+   onclick="trackEvent('result_click', {
+     keyword: '${keyword}',
+     era: '${selectedEra}',
+     title: '${song.title || ""}',
+     artist: '${song.artist || ""}'
+   })">
+  View lyrics
+</a>
       `;
 
       resultsDiv.appendChild(card);
@@ -114,3 +130,21 @@ window.addEventListener("scroll", () => {
   if (mid) mid.style.transform = `translateY(${scrollY * 0.2}px)`;
   if (front) front.style.transform = `translateY(${scrollY * 0.3}px)`;
 });
+
+function trackEvent(event, data = {}) {
+  fetch("https://eshe.app.n8n.cloud/webhook/track-event", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ event, data })
+  }).catch(() => {});
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  trackEvent("page_visit", {
+    page: "lyrics_finder"
+  });
+});
+
+
+
