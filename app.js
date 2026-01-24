@@ -1,4 +1,5 @@
 const API_URL = "https://eshe.app.n8n.cloud/webhook/search-lyrics";
+<<<<<<< HEAD
 const TRACK_URL = "https://eshe.app.n8n.cloud/webhook/track-event";
 
 let selectedEra = "all";
@@ -16,6 +17,11 @@ function trackEvent(event, data = {}) {
 }
 
 /* ================================
+=======
+let selectedEra = "all";
+
+/* ================================
+>>>>>>> fe6aa82ac4eb32efde24565eb062cfe718fe8865
    SEARCH FUNCTION
 ================================ */
 
@@ -39,7 +45,13 @@ async function searchLyrics() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         query: keyword,
+<<<<<<< HEAD
         filters: { era: selectedEra }
+=======
+        filters: {
+          era: selectedEra || "all"
+        }
+>>>>>>> fe6aa82ac4eb32efde24565eb062cfe718fe8865
       })
     });
 
@@ -48,7 +60,9 @@ async function searchLyrics() {
     }
 
     const data = await response.json();
+    console.log("RAW API DATA:", data);
 
+<<<<<<< HEAD
     const songs = Array.isArray(data.results) ? data.results : [];
 
     // 🔍 Track search event
@@ -57,6 +71,11 @@ async function searchLyrics() {
       era: selectedEra,
       resultsCount: songs.length
     });
+=======
+    // ✅ Handle backend returning array with single object
+    const payload = Array.isArray(data) ? data[0] : data;
+    const songs = Array.isArray(payload?.results) ? payload.results : [];
+>>>>>>> fe6aa82ac4eb32efde24565eb062cfe718fe8865
 
     if (songs.length === 0) {
       resultsDiv.innerHTML = "<p>No songs found for this era.</p>";
@@ -71,6 +90,7 @@ async function searchLyrics() {
 
       card.innerHTML = `
         <img src="${song.image || 'https://via.placeholder.com/300'}" />
+<<<<<<< HEAD
         <h4>${song.title}</h4>
         <p>${song.artist}</p>
         ${song.year ? `<p><small>Year: ${song.year}</small></p>` : ""}
@@ -82,6 +102,12 @@ async function searchLyrics() {
              artist: '${song.artist}'
            })"
            style="color:#caa7ff">
+=======
+        <h4>${song.title || "Unknown Title"}</h4>
+        <p>${song.artist || "Unknown Artist"}</p>
+        ${song.year ? `<p><small>Year: ${song.year}</small></p>` : ""}
+        <a href="${song.url || "#"}" target="_blank" style="color:#caa7ff">
+>>>>>>> fe6aa82ac4eb32efde24565eb062cfe718fe8865
           View lyrics
         </a>
       `;
@@ -90,12 +116,13 @@ async function searchLyrics() {
     });
 
   } catch (error) {
-    console.error(error);
+    console.error("Search error:", error);
     resultsDiv.innerHTML = "<p>🚨 Something went wrong. Please try again.</p>";
   }
 }
 
 /* ================================
+<<<<<<< HEAD
    PAGE LOAD + ERA FILTERS
 ================================ */
 
@@ -105,6 +132,12 @@ document.addEventListener("DOMContentLoaded", () => {
     page: "lyrics_finder"
   });
 
+=======
+   FILTER BUTTON LOGIC
+================================ */
+
+document.addEventListener("DOMContentLoaded", () => {
+>>>>>>> fe6aa82ac4eb32efde24565eb062cfe718fe8865
   // Enter key support
   const input = document.getElementById("query");
   if (input) {
@@ -114,6 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Era filter buttons
+<<<<<<< HEAD
   document.querySelectorAll(".filter-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       document.querySelectorAll(".filter-btn")
@@ -121,6 +155,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
       btn.classList.add("active");
       selectedEra = btn.dataset.era || "all";
+=======
+  const filterButtons = document.querySelectorAll(".filter-btn");
+
+  filterButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      filterButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      selectedEra = btn.dataset.era || "all";
+      console.log("Selected era:", selectedEra);
+>>>>>>> fe6aa82ac4eb32efde24565eb062cfe718fe8865
     });
   });
 });
@@ -132,15 +177,15 @@ document.addEventListener("DOMContentLoaded", () => {
 window.addEventListener("scroll", () => {
   const scrollY = window.scrollY;
 
-  document.querySelector(".layer-back").style.transform =
-    `translateY(${scrollY * 0.1}px)`;
+  const back = document.querySelector(".layer-back");
+  const mid = document.querySelector(".layer-mid");
+  const front = document.querySelector(".layer-front");
 
-  document.querySelector(".layer-mid").style.transform =
-    `translateY(${scrollY * 0.2}px)`;
-
-  document.querySelector(".layer-front").style.transform =
-    `translateY(${scrollY * 0.3}px)`;
+  if (back) back.style.transform = `translateY(${scrollY * 0.1}px)`;
+  if (mid) mid.style.transform = `translateY(${scrollY * 0.2}px)`;
+  if (front) front.style.transform = `translateY(${scrollY * 0.3}px)`;
 });
+<<<<<<< HEAD
 
 /* ================================
    SHOOTING STARS
@@ -197,3 +242,5 @@ async function initAudioReactiveWaves() {
 }
 
 initAudioReactiveWaves();
+=======
+>>>>>>> fe6aa82ac4eb32efde24565eb062cfe718fe8865

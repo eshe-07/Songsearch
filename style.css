@@ -367,3 +367,39 @@ footer {
 .audio-waves span {
   transition: height 0.1s linear;
 }
+
+.filter-row {
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;   /* 👈 center align */
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.filter-label {
+  color: #ccc;
+  font-size: 14px;
+  margin-right: 6px;
+}
+
+.filter-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-size: 13px;
+}
+
+.filter-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.filter-btn.active {
+  background: #7f5af0;
+  border-color: #7f5af0;
+}
