@@ -1,4 +1,23 @@
 const API_URL = "https://eshe.app.n8n.cloud/webhook/search-lyrics";
+const TRACK_URL = "https://eshe.app.n8n.cloud/webhook/track-event";
+
+let selectedEra = "all";
+
+/* ================================
+   ANALYTICS TRACKING
+================================ */
+
+function trackEvent(event, data = {}) {
+  fetch(TRACK_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ event, data })
+  }).catch(() => {}); // never block UI
+}
+
+/* ================================
+   SEARCH FUNCTION
+================================ */
 
 async function searchLyrics() {
   const input = document.getElementById("query");
@@ -18,7 +37,10 @@ async function searchLyrics() {
     const response = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query: keyword })
+      body: JSON.stringify({
+        query: keyword,
+        filters: { era: selectedEra }
+      })
     });
 
     if (!response.ok) {
@@ -27,14 +49,23 @@ async function searchLyrics() {
 
     const data = await response.json();
 
-    if (!Array.isArray(data) || data.length === 0) {
-      resultsDiv.innerHTML = "<p>No songs found.</p>";
+    const songs = Array.isArray(data.results) ? data.results : [];
+
+    // 🔍 Track search event
+    trackEvent("search", {
+      keyword,
+      era: selectedEra,
+      resultsCount: songs.length
+    });
+
+    if (songs.length === 0) {
+      resultsDiv.innerHTML = "<p>No songs found for this era.</p>";
       return;
     }
 
     resultsDiv.innerHTML = "";
 
-    data.forEach(song => {
+    songs.forEach(song => {
       const card = document.createElement("div");
       card.className = "song-card";
 
@@ -42,7 +73,17 @@ async function searchLyrics() {
         <img src="${song.image || 'https://via.placeholder.com/300'}" />
         <h4>${song.title}</h4>
         <p>${song.artist}</p>
-        <a href="${song.url}" target="_blank" style="color:#caa7ff">View lyrics</a>
+        ${song.year ? `<p><small>Year: ${song.year}</small></p>` : ""}
+        <a href="${song.url}" target="_blank"
+           onclick="trackEvent('result_click', {
+             keyword: '${keyword}',
+             era: '${selectedEra}',
+             title: '${song.title}',
+             artist: '${song.artist}'
+           })"
+           style="color:#caa7ff">
+          View lyrics
+        </a>
       `;
 
       resultsDiv.appendChild(card);
@@ -54,13 +95,34 @@ async function searchLyrics() {
   }
 }
 
+/* ================================
+   PAGE LOAD + ERA FILTERS
+================================ */
+
 document.addEventListener("DOMContentLoaded", () => {
+  // 📊 Track page visit
+  trackEvent("page_visit", {
+    page: "lyrics_finder"
+  });
+
+  // Enter key support
   const input = document.getElementById("query");
   if (input) {
     input.addEventListener("keypress", e => {
       if (e.key === "Enter") searchLyrics();
     });
   }
+
+  // Era filter buttons
+  document.querySelectorAll(".filter-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".filter-btn")
+        .forEach(b => b.classList.remove("active"));
+
+      btn.classList.add("active");
+      selectedEra = btn.dataset.era || "all";
+    });
+  });
 });
 
 /* ================================
@@ -80,6 +142,10 @@ window.addEventListener("scroll", () => {
     `translateY(${scrollY * 0.3}px)`;
 });
 
+/* ================================
+   SHOOTING STARS
+================================ */
+
 function createShootingStar() {
   const container = document.querySelector(".shooting-stars");
   const star = document.createElement("div");
@@ -89,12 +155,15 @@ function createShootingStar() {
   star.style.left = window.innerWidth + "px";
 
   container.appendChild(star);
-
   setTimeout(() => star.remove(), 1500);
 }
 
-// spawn every 3–6 seconds
 setInterval(createShootingStar, 3000 + Math.random() * 3000);
+
+/* ================================
+   AUDIO REACTIVE WAVES
+================================ */
+
 async function initAudioReactiveWaves() {
   const spans = document.querySelectorAll(".audio-waves span");
 
