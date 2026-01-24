@@ -27,22 +27,28 @@ async function searchLyrics() {
 
     const data = await response.json();
 
-    if (!Array.isArray(data) || data.length === 0) {
+    // ✅ CORRECT: handle new backend format
+    const songs = Array.isArray(data.results) ? data.results : [];
+
+    if (songs.length === 0) {
       resultsDiv.innerHTML = "<p>No songs found.</p>";
       return;
     }
 
     resultsDiv.innerHTML = "";
 
-    data.forEach(song => {
+    songs.forEach(song => {
       const card = document.createElement("div");
       card.className = "song-card";
 
       card.innerHTML = `
         <img src="${song.image || 'https://via.placeholder.com/300'}" />
-        <h4>${song.title}</h4>
-        <p>${song.artist}</p>
-        <a href="${song.url}" target="_blank" style="color:#caa7ff">View lyrics</a>
+        <h4>${song.title || "Unknown Title"}</h4>
+        <p>${song.artist || "Unknown Artist"}</p>
+        ${song.year ? `<p><small>Year: ${song.year}</small></p>` : ""}
+        <a href="${song.url}" target="_blank" style="color:#caa7ff">
+          View lyrics
+        </a>
       `;
 
       resultsDiv.appendChild(card);
@@ -53,78 +59,3 @@ async function searchLyrics() {
     resultsDiv.innerHTML = "<p>🚨 Something went wrong. Please try again.</p>";
   }
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  const input = document.getElementById("query");
-  if (input) {
-    input.addEventListener("keypress", e => {
-      if (e.key === "Enter") searchLyrics();
-    });
-  }
-});
-
-/* ================================
-   PARALLAX SCROLL EFFECT
-================================ */
-
-window.addEventListener("scroll", () => {
-  const scrollY = window.scrollY;
-
-  document.querySelector(".layer-back").style.transform =
-    `translateY(${scrollY * 0.1}px)`;
-
-  document.querySelector(".layer-mid").style.transform =
-    `translateY(${scrollY * 0.2}px)`;
-
-  document.querySelector(".layer-front").style.transform =
-    `translateY(${scrollY * 0.3}px)`;
-});
-
-function createShootingStar() {
-  const container = document.querySelector(".shooting-stars");
-  const star = document.createElement("div");
-  star.className = "star";
-
-  star.style.top = Math.random() * window.innerHeight + "px";
-  star.style.left = window.innerWidth + "px";
-
-  container.appendChild(star);
-
-  setTimeout(() => star.remove(), 1500);
-}
-
-// spawn every 3–6 seconds
-setInterval(createShootingStar, 3000 + Math.random() * 3000);
-async function initAudioReactiveWaves() {
-  const spans = document.querySelectorAll(".audio-waves span");
-
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    const audioCtx = new AudioContext();
-    const analyser = audioCtx.createAnalyser();
-    const source = audioCtx.createMediaStreamSource(stream);
-
-    source.connect(analyser);
-    analyser.fftSize = 64;
-
-    const bufferLength = analyser.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
-
-    function animate() {
-      analyser.getByteFrequencyData(dataArray);
-
-      spans.forEach((span, i) => {
-        const value = dataArray[i * 2] || 0;
-        span.style.height = `${20 + value}px`;
-      });
-
-      requestAnimationFrame(animate);
-    }
-
-    animate();
-  } catch (err) {
-    console.warn("Microphone access denied – using default animation.");
-  }
-}
-
-initAudioReactiveWaves();
