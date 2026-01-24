@@ -403,3 +403,23 @@ footer {
   background: #7f5af0;
   border-color: #7f5af0;
 }
+
+@media (max-width: 480px) {
+
+  .search-row {
+    display: flex;
+    flex-direction: column;   /* 👈 this is the key */
+    gap: 12px;
+  }
+
+  .search-row input {
+    width: 100%;
+    font-size: 16px;          /* prevents iOS zoom */
+  }
+
+  .search-row button {
+    width: 100%;              /* 👈 button goes below input */
+    font-size: 16px;
+  }
+
+}
